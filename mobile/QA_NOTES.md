@@ -22,3 +22,11 @@ Verified: blocked-sprite fault test (old build freezes, new build continues), fu
 Mobile restored to the bet-first flow: stake panel (chips 1/5/10/25/100, −1/+1/½/×2/Clear) → Confirm & Deal →
 3 plays / 2 discards → result → Next Round back to the stake panel. New Round button removed.
 Game logic (js/game.js) is now identical to the desktop V11 build, including the stuck-play fix above.
+
+## Fix: soft / blurry text in the upper panels — 2026-10-27
+- Stage is now positioned with a pixel-snapped translate (was left/top 50% + translate(-50%), which landed on
+  half-pixels and softened every glyph); removed `will-change` on the world layer so text re-rasterises at the
+  real scale.
+- Upper panels (ladder, HUD, bet bar): larger and heavier labels/numbers, brighter label colour, tighter shadows
+  instead of wide glows, more opaque panel backgrounds, no CSS filter on the current-tier tile.
+- Top motto switched from thin script to spaced Cinzel small caps (script is unreadable at phone size).

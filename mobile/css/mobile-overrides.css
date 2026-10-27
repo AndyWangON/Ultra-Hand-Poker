@@ -160,3 +160,27 @@ body.betting .stake-panel{opacity:1;pointer-events:auto;transform:none}
 body.betting .actions,body.betting .sort-bar,body.betting .play-zone{opacity:.18;pointer-events:none}
 body.betting .bet-panel{box-shadow:0 0 0 2px rgba(255,214,110,.55),0 0 30px rgba(255,200,90,.35),0 14px 34px rgba(0,0,0,.65)}
 .actions,.sort-bar{transition:opacity .35s}
+
+
+/* ===== legibility pass for the upper panels (crisper, larger, higher contrast) ===== */
+.ladder-panel,.hud,.bet-panel{background:linear-gradient(180deg,rgba(13,20,20,.97),rgba(3,7,7,.98))}
+.motto{font-size:40px;opacity:1;color:#f6d27a;text-shadow:0 2px 3px rgba(0,0,0,.9)}
+.panel-label{font-size:29px;font-weight:700;color:#ffe9a8;letter-spacing:.04em;text-shadow:0 1px 1px #000}
+.tier span{font-size:28px;font-weight:600;color:#f4f6f8;text-shadow:0 1px 1px #000}
+.tier strong{font-size:46px;font-weight:700;text-shadow:0 2px 2px rgba(0,0,0,.85)}
+.tier.cur{filter:none;background:linear-gradient(180deg,#2b4a7a,#142a4c);box-shadow:0 0 0 3px #ffd76e,0 0 18px rgba(255,200,90,.6)}
+.tier.passed{filter:none;opacity:.55}
+.hud .lbl{font-size:28px;font-weight:600;color:#f3efe6;letter-spacing:.04em;text-shadow:0 1px 1px #000}
+.hud b{font-size:66px;font-weight:700}
+.hud .score b{text-shadow:0 2px 2px rgba(0,0,0,.8),0 0 6px rgba(246,198,78,.35)}
+.hud .plays b{text-shadow:0 2px 2px rgba(0,0,0,.8),0 0 6px rgba(76,201,255,.3)}
+.hud .discards b{text-shadow:0 2px 2px rgba(0,0,0,.8),0 0 6px rgba(255,74,79,.3)}
+.hud .deckc b{text-shadow:0 2px 2px rgba(0,0,0,.8)}
+.bet-title,.bet-label{font-size:28px;font-weight:600;color:#f3efe6;letter-spacing:.04em;text-shadow:0 1px 1px #000}
+#betInput{font-size:54px;font-weight:700}
+.bet-btn{font-weight:600}
+.live-win{font-size:58px;font-weight:700;text-shadow:0 2px 2px rgba(0,0,0,.8)}
+.live-win.zero{color:#9cc4aa}
+.mult-val{font-size:58px;font-weight:700;text-shadow:0 2px 2px rgba(0,0,0,.8)}
+/* motto: thin script turns to mush at phone size — use crisp spaced small caps instead */
+.motto{font:700 24px/1 "Cinzel",serif;letter-spacing:.14em;color:#f2cf7c;top:52px;left:34px;text-shadow:0 2px 2px rgba(0,0,0,.95)}

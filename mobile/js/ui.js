@@ -15,7 +15,10 @@
       U.fx.resize(L.w, L.h); U.cards.setLayout(L);
     }
     const L = U.cards.layout; const s = Math.min(w / L.w, h / L.h);
-    $('stage').style.transform = `scale(${s}) translate(-50%,-50%)`;
+    // Snap the stage origin to whole device pixels: a fractional offset makes all text soft.
+    const dpr = window.devicePixelRatio || 1;
+    const x = Math.round((w - L.w * s) / 2 * dpr) / dpr, y = Math.round((h - L.h * s) / 2 * dpr) / dpr;
+    $('stage').style.transform = `translate(${x}px,${y}px) scale(${s})`;
     U.ui.scale = s;
   }
 
