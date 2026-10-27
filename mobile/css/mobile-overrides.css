@@ -1,0 +1,123 @@
+/* ==========================================================
+   Mobile sizing overrides for shared components
+   ========================================================== */
+.final-banner{top:1078px}
+
+/* top bar */
+.btn-ghost.square{width:92px;height:84px;border-radius:14px}
+.btn-ghost.square img{width:44px;height:44px}
+.motto{font:400 34px/1 "Great Vibes",cursive;color:#f2c96a;transform:none;display:block;opacity:.85;
+  text-shadow:0 0 14px rgba(255,190,90,.45),0 2px 2px rgba(0,0,0,.7)}
+.motto span{display:none}
+
+/* ladder: 4 x 2 grid */
+.panel-label{left:26px;top:16px;font-size:26px}
+.ladder{left:20px;right:20px;top:56px;height:166px;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr 1fr;gap:10px 12px}
+.tier span{font-size:24px}
+.tier strong{font-size:40px}
+.tier.cur::after{display:none}
+.tier-progress{left:20px;right:20px;bottom:10px;height:5px}
+
+/* HUD */
+.hud{grid-template-columns:1.15fr 1fr 1fr 1fr}
+.hud .lbl{font-size:25px}
+.hud b{font-size:58px}
+.hud .val{gap:10px}
+.hud .val img{width:46px;height:46px}
+
+/* bet bar */
+.bet-panel{display:grid;grid-template-columns:1.1fr 1.2fr .8fr;align-items:center;padding:0 28px}
+.bet-col{display:flex;flex-direction:column;justify-content:center;gap:6px;position:relative;height:100%}
+.bet-col+.bet-col{padding-left:28px}
+.bet-col+.bet-col::before{content:"";position:absolute;left:0;top:18px;bottom:18px;width:1px;background:linear-gradient(transparent,rgba(232,185,79,.55),transparent)}
+.bet-title{font-size:24px;color:rgba(236,232,222,.92);font-weight:600}
+.bet-control{margin:0;gap:10px;justify-content:flex-start}
+.bet-btn{width:62px;height:58px;font-size:38px;border-radius:10px}
+#betInput{width:110px;font-size:46px}
+.bet-label{font-size:24px}
+.live-win{font-size:50px;margin:0;line-height:1}
+.bet-col.mult{align-items:flex-end}
+.mult-val{font:600 50px/1 var(--num);color:#f6c64e}
+
+/* play zone hint */
+.play-zone{border-radius:22px;border:2px dashed rgba(232,190,100,.18);display:grid;place-items:center;transition:opacity .3s}
+.play-zone span{font:700 26px/1 var(--label);letter-spacing:.4em;color:rgba(232,190,100,.22)}
+body.scoring .play-zone{opacity:0}
+
+/* deck */
+.deck-prop .stack3d{transform:rotateX(40deg) rotateZ(-12deg)}
+
+/* sort */
+.sort-bar{padding:0 8px 0 28px;border-radius:14px}
+.sort-lbl{font-size:26px;margin-right:18px}
+.seg{height:52px;width:124px;font-size:27px;border-radius:10px}
+.suit-pick{height:52px;gap:8px}
+.suit-pick button{width:58px;height:50px;border-radius:10px}
+.suit-pick svg{width:32px;height:32px}
+
+/* action buttons */
+.actions{gap:24px}
+.big-btn{border-radius:22px;gap:12px}
+.big-btn .ico{width:54px;height:54px}
+.big-btn.discard{width:300px;font-size:40px}
+.big-btn.play{width:400px}
+.big-btn.play .lbl{font-size:48px}
+.big-btn.play .lbl small{font-size:18px;margin-top:8px}
+.big-btn.round{width:284px;font-size:36px;line-height:.95}
+.badge{width:56px;height:56px;font-size:30px;right:-12px;top:-16px}
+
+/* hand guide: 2 rows x 5 */
+.guide{grid-template-columns:repeat(5,1fr);grid-template-rows:1fr 1fr;padding:14px 10px 12px;row-gap:6px}
+.g-item:nth-child(6)::before{display:none}
+.g-item img{width:170px;height:84px}
+.g-item .gn{font-size:22px;margin-top:6px}
+.g-item .gv{font-size:36px;margin-top:4px}
+.g-item:nth-child(-n+5)::after{bottom:auto}
+.guide::before{content:"";position:absolute;left:24px;right:24px;top:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(232,185,79,.35),transparent)}
+
+/* scoring panel */
+.sp-name{font-size:76px}
+.sp-box{min-width:170px;padding:8px 18px 10px}
+.sp-box small{font-size:20px}
+.sp-box b{font-size:54px}
+.sp-op{font-size:44px}
+
+/* card value chips */
+.floater{font-size:52px}
+
+/* overlays */
+.tier-burst{width:1080px;height:2340px}
+.tier-burst .rays{width:1300px;height:1300px;margin:-650px 0 0 -650px}
+.tier-burst small{font-size:30px}
+.tier-burst strong{font-size:200px}
+.tier-burst span{font-size:30px}
+.shuffle-overlay{top:1080px}
+.shuffle-overlay strong{font-size:36px}
+.modal-card{width:980px;padding:48px 40px}
+.modal h2{font-size:72px}
+.kicker{font-size:24px}
+.how-grid{grid-template-columns:1fr 1fr;gap:18px}
+.how-step{font-size:25px}
+.how-step strong{font-size:28px}
+.how-step b{flex-basis:50px;height:50px;font-size:26px}
+.how-table{grid-template-columns:repeat(2,1fr)}
+.how-table div{font-size:24px;padding:12px 16px}
+.rule-note{font-size:24px}
+.modal-cta{width:420px;height:100px}
+.modal-cta .lbl{font-size:46px}
+.modal-card.small{width:900px}
+.setting-row{font-size:32px;padding:24px 6px}
+.setting-row input[type=checkbox]{width:40px;height:40px}
+.setting-row input[type=range]{width:340px}
+.modal-close{width:64px;height:64px;font-size:50px}
+.modal-card.result{width:960px}
+.res-label{font-size:28px}
+.final-payout{font-size:140px}
+.final-payout.none{font-size:110px}
+.final-sub{font-size:30px}
+.final-hands span{font-size:26px}
+
+/* touch: no hover-only lift on buttons */
+@media (hover:none){
+  .big-btn:hover:not(:disabled),.btn-ghost:hover{transform:none;filter:none}
+}

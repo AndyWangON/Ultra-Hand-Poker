@@ -1,0 +1,35 @@
+/* ==========================================================
+   Cards — positions/tilt/flip are driven per-frame by js/cards.js
+   ========================================================== */
+.card{position:absolute;left:0;top:0;width:var(--cw,142px);height:var(--ch,206px);pointer-events:auto;cursor:pointer;will-change:transform;-webkit-tap-highlight-color:transparent}
+.card .shadow{position:absolute;left:6%;right:6%;bottom:-4%;height:22%;border-radius:50%;background:rgba(0,0,0,.55);filter:blur(10px);
+  transform:translate(calc(var(--lift,0) * 0.35px),calc(var(--lift,0) * 0.5px)) scale(calc(1 + var(--lift,0) * .004));opacity:calc(.85 - var(--lift,0) * .006);pointer-events:none}
+.card .tilt{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
+.card .flip{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
+.card .face{position:absolute;inset:0;border-radius:9.5%/6.8%;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  box-shadow:0 2px 3px rgba(0,0,0,.35),0 8px 18px rgba(0,0,0,.35)}
+.card .face img{width:100%;height:100%;display:block;pointer-events:none;-webkit-user-drag:none}
+.card .face.back{transform:rotateY(180deg)}
+.card .shine{position:absolute;inset:0;border-radius:9.5%/6.8%;pointer-events:none;mix-blend-mode:soft-light;opacity:0;transition:opacity .25s;
+  background:linear-gradient(calc(110deg + var(--mx,0) * 40deg),transparent 25%,rgba(255,255,255,.85) calc(45% + var(--mx,0) * 20%),transparent 65%)}
+.card:hover .shine,.card.sel .shine{opacity:.75}
+.card .glow{position:absolute;inset:-2px;border-radius:10%/7%;pointer-events:none;opacity:0;transition:opacity .2s,box-shadow .2s;
+  box-shadow:0 0 0 3px #ffd76e,0 0 24px 6px rgba(255,196,80,.75),inset 0 0 14px rgba(255,220,120,.6)}
+.card.sel .glow{opacity:1;animation:selGlow 1.4s ease-in-out infinite}
+@keyframes selGlow{50%{box-shadow:0 0 0 3px #ffe9a8,0 0 34px 10px rgba(255,206,96,.9),inset 0 0 18px rgba(255,230,140,.7)}}
+.card .marker{position:absolute;left:50%;top:-24px;margin-left:-10px;width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-bottom:12px solid #ffe7a3;
+  filter:drop-shadow(0 0 6px rgba(255,210,110,.9));opacity:0;transform:translateY(8px);transition:opacity .2s,transform .3s var(--ease-back)}
+.card.sel .marker{opacity:1;transform:none}
+.card.score-hit .glow{opacity:1;box-shadow:0 0 0 4px #fff3c2,0 0 46px 16px rgba(255,214,110,.95),inset 0 0 22px rgba(255,240,180,.8);animation:none}
+.card.kicker .face{filter:grayscale(.85) brightness(.55)}
+.card.idle-dim .face{filter:brightness(.42) saturate(.6)}
+.card.ghost{pointer-events:none}
+.card .chipval{position:absolute;left:50%;top:-6px;transform:translate(-50%,-100%);font:600 34px/1 var(--num);color:#fff;white-space:nowrap;pointer-events:none;
+  padding:4px 12px;border-radius:8px;background:linear-gradient(180deg,#d22a3a,#7a0c17);border:2px solid #ffb0b0;box-shadow:0 6px 14px rgba(0,0,0,.6)}
+
+/* deck prop: stacked backs in 3D */
+.deck-prop{perspective:900px;pointer-events:none}
+.deck-prop .stack3d{position:absolute;inset:0;transform:rotateX(52deg) rotateZ(-24deg);transform-style:preserve-3d}
+.deck-prop img{position:absolute;inset:0;width:100%;height:100%;border-radius:12px;box-shadow:0 1px 0 #c9b98f,0 2px 0 #8d7b56}
+.deck-prop .edge{position:absolute;inset:0;border-radius:12px;background:linear-gradient(90deg,#efe4c6,#c8b88f);box-shadow:0 0 0 1px rgba(0,0,0,.15)}
+.deck-prop .dshadow{position:absolute;left:-30px;right:-60px;top:40px;bottom:-50px;border-radius:50%;background:rgba(0,0,0,.6);filter:blur(24px);transform:rotateX(52deg) rotateZ(-24deg)}

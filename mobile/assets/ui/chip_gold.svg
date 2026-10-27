@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><g>
+  <defs><radialGradient id="cgoldg" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".35"/></radialGradient>
+  <linearGradient id="cgoldr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe7a6"/><stop offset=".5" stop-color="#d4a03a"/><stop offset="1" stop-color="#7d5514"/></linearGradient></defs>
+  <circle cx="100" cy="100" r="96" fill="#c48a1c" stroke="#0006" stroke-width="2"/>
+  <rect x="-12.48" y="-96" width="24.96" height="19.200000000000003" fill="#2a1a08" transform="translate(100 100) rotate(0)"/><rect x="-12.48" y="-96" width="24.96" height="19.200000000000003" fill="#2a1a08" transform="translate(100 100) rotate(45)"/><rect x="-12.48" y="-96" width="24.96" height="19.200000000000003" fill="#2a1a08" transform="translate(100 100) rotate(90)"/><rect x="-12.48" y="-96" width="24.96" height="19.200000000000003" fill="#2a1a08" transform="translate(100 100) rotate(135)"/><rect x="-12.48" y="-96" width="24.96" height="19.200000000000003" fill="#2a1a08" transform="translate(100 100) rotate(180)"/><rect x="-12.48" y="-96" width="24.96" height="19.200000000000003" fill="#2a1a08" transform="translate(100 100) rotate(225)"/><rect x="-12.48" y="-96" width="24.96" height="19.200000000000003" fill="#2a1a08" transform="translate(100 100) rotate(270)"/><rect x="-12.48" y="-96" width="24.96" height="19.200000000000003" fill="#2a1a08" transform="translate(100 100) rotate(315)"/>
+  <circle cx="100" cy="100" r="69.12" fill="none" stroke="url(#cgoldr)" stroke-width="5.76"/>
+  <circle cx="100" cy="100" r="59.519999999999996" fill="#c48a1c" stroke="#0005" stroke-width="1.5"/>
+  <circle cx="100" cy="100" r="59.519999999999996" fill="none" stroke="#2a1a08" stroke-width="2.4000000000000004" stroke-dasharray="4.800000000000001 6.720000000000001"/>
+  <path d="M50 3 C55 14 66 24 78 34 C91 45 98 53 98 66 C98 79 88 87 76 87 C67 87 60 83 55 76 C56 85 60 92 68 97 L32 97 C40 92 44 85 45 76 C40 83 33 87 24 87 C12 87 2 79 2 66 C2 53 9 45 22 34 C34 24 45 14 50 3 Z" fill="url(#cgoldr)"  transform="translate(100.00 98.08)  scale(0.5952) translate(-50 -50)"/>
+  <circle cx="100" cy="100" r="96" fill="url(#cgoldg)"/>
+  </g></svg>

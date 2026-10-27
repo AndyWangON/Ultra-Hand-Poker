@@ -1,0 +1,43 @@
+/* ==========================================================
+   Portrait / mobile layout (secondary target) — 1080 x 1920 stage
+   ========================================================== */
+.room-bg{object-fit:cover}
+body.portrait .table{left:-760px;top:250px;width:2600px;height:1462px;inset:auto}
+body.portrait .room::after{content:"";position:absolute;left:0;right:0;top:1640px;bottom:0;background:linear-gradient(180deg,rgba(6,3,2,0),#060302 30%)}
+body.portrait .motto,body.portrait .wall-sign,body.portrait .props .stack,body.portrait .props .glass{display:none}
+body.portrait .flicker.f2{left:700px}
+body.portrait .top-controls{right:24px;top:22px;gap:12px}
+body.portrait .logo-wrap{left:160px;top:86px;width:760px;height:288px}
+body.portrait .ladder-panel{left:24px;top:388px;width:1032px;height:128px}
+body.portrait .tier strong{font-size:29px}
+body.portrait .tier span{font-size:17px}
+body.portrait .hud{left:24px;top:532px;width:1032px;height:100px}
+body.portrait .bet-panel{left:24px;top:648px;width:1032px;height:120px;padding:14px 26px;display:grid;
+  grid-template-columns:auto 1fr auto;grid-template-areas:"title label mult" "control win mult";column-gap:40px;align-items:center}
+body.portrait .bet-title{grid-area:title}
+body.portrait .bet-control{grid-area:control;margin:0;gap:10px}
+body.portrait .bet-sep{display:none}
+body.portrait .bet-label{grid-area:label}
+body.portrait .live-win{grid-area:win;margin:0}
+body.portrait .mult-row{grid-area:mult;flex-direction:column;align-items:flex-end;gap:8px}
+body.portrait .sort-bar{left:248px;top:1090px}
+body.portrait .actions{left:24px;top:1166px;width:1032px;gap:30px}
+body.portrait .big-btn.discard{width:310px}
+body.portrait .big-btn.play{width:360px}
+body.portrait .big-btn.round{width:302px}
+body.portrait .guide{left:24px;top:1290px;width:1032px;height:330px;grid-template-columns:repeat(5,1fr);grid-template-rows:1fr 1fr;row-gap:6px}
+body.portrait .g-item:nth-child(6)::before{display:none}
+body.portrait .emblem{left:70px;top:1680px;width:120px}
+body.portrait .deck-prop{left:830px;top:1660px}
+body.portrait .score-panel{left:220px;top:1080px}
+body.portrait .final-banner{left:400px;top:770px}
+body.portrait .tier-burst{width:1080px;height:1920px}
+body.portrait .shuffle-overlay{top:1000px}
+body.portrait .modal-card{width:980px;padding:40px 34px}
+body.portrait .how-grid{grid-template-columns:1fr 1fr}
+body.portrait .how-table{grid-template-columns:repeat(2,1fr)}
+body.portrait .modal-card.result{width:900px}
+body.portrait .big-btn.discard{width:400px}
+body.portrait .big-btn.play{width:602px}
+body.portrait .stake-panel{left:24px;top:800px;width:1032px}
+body.portrait .stake-panel{grid-template-columns:350px 1fr;padding:24px 24px}body.portrait .stake-confirm{width:100%}body.portrait .stake-chip{width:88px;height:88px}body.portrait .stake-tool{min-width:84px}

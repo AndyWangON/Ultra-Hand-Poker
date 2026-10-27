@@ -1,0 +1,11 @@
+/* Bundled open-source fonts (SIL OFL) */
+@font-face{font-family:"Barlow Condensed";font-weight:500;font-display:block;src:url(../assets/fonts/barlow-condensed-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-weight:600;font-display:block;src:url(../assets/fonts/barlow-condensed-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-weight:700;font-display:block;src:url(../assets/fonts/barlow-condensed-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"Barlow Condensed";font-weight:800;font-display:block;src:url(../assets/fonts/barlow-condensed-latin-800-normal.woff2) format("woff2")}
+@font-face{font-family:"Oswald";font-weight:500;font-display:block;src:url(../assets/fonts/oswald-latin-500-normal.woff2) format("woff2")}
+@font-face{font-family:"Oswald";font-weight:600;font-display:block;src:url(../assets/fonts/oswald-latin-600-normal.woff2) format("woff2")}
+@font-face{font-family:"Oswald";font-weight:700;font-display:block;src:url(../assets/fonts/oswald-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"Great Vibes";font-weight:400;font-display:block;src:url(../assets/fonts/great-vibes-latin-400-normal.woff2) format("woff2")}
+@font-face{font-family:"Cinzel";font-weight:700;font-display:block;src:url(../assets/fonts/cinzel-latin-700-normal.woff2) format("woff2")}
+@font-face{font-family:"Cinzel";font-weight:900;font-display:block;src:url(../assets/fonts/cinzel-latin-900-normal.woff2) format("woff2")}

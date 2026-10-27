@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 420" width="300" height="420"><defs>
+  <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fffdf6"/><stop offset=".55" stop-color="#fbf4e3"/><stop offset="1" stop-color="#efe3c8"/></linearGradient>
+  <radialGradient id="vig" cx=".5" cy=".45" r=".75"><stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#6b4a1a" stop-opacity=".16"/></radialGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbe39a"/><stop offset=".5" stop-color="#e0a62c"/><stop offset="1" stop-color="#a8701a"/></linearGradient>
+  <linearGradient id="goldH" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#b07a1e"/><stop offset=".5" stop-color="#f9dd8c"/><stop offset="1" stop-color="#b07a1e"/></linearGradient>
+  <linearGradient id="blade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9aa3ad"/><stop offset=".5" stop-color="#ffffff"/><stop offset="1" stop-color="#8d96a0"/></linearGradient>
+  <linearGradient id="shadeR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".18"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></linearGradient>
+  <pattern id="lattice" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#e2a92c"/><path d="M6 0L12 6L6 12L0 6Z" fill="none" stroke="#a8761a" stroke-width="1.2"/><circle cx="6" cy="6" r="1.6" fill="#c0182d"/></pattern>
+  <pattern id="latticeB" width="12" height="12" patternUnits="userSpaceOnUse"><rect width="12" height="12" fill="#e2a92c"/><path d="M6 0L12 6L6 12L0 6Z" fill="none" stroke="#a8761a" stroke-width="1.2"/><circle cx="6" cy="6" r="1.6" fill="#21408e"/></pattern>
+  <pattern id="stripeR" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#c0182d"/><rect width="4" height="10" fill="#e2a92c"/></pattern>
+  <pattern id="stripeB" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="10" height="10" fill="#21408e"/><rect width="4" height="10" fill="#e2a92c"/></pattern>
+  <pattern id="ermine" width="14" height="10" patternUnits="userSpaceOnUse"><rect width="14" height="10" fill="#fbf6ea"/><path d="M4 2 l1.5 4 l1.5 -4 M5.5 6 v2" stroke="#111" stroke-width="1.4" fill="none"/></pattern>
+  <pattern id="frameBg" width="8" height="8" patternUnits="userSpaceOnUse"><rect width="8" height="8" fill="#f8ecc9"/><path d="M0 8L8 0" stroke="#ead9a6" stroke-width="1"/></pattern>
+  <clipPath id="cframe"><rect x="64" y="58" width="172" height="304" rx="6"/></clipPath>
+  <clipPath id="chalf"><rect x="64" y="58" width="172" height="152"/></clipPath>
+</defs>
+<rect x="2" y="2" width="296" height="416" rx="20" fill="url(#paper)"/>
+<rect x="2" y="2" width="296" height="416" rx="20" fill="url(#vig)"/>
+<circle cx="150" cy="210" r="86" fill="none" stroke="#d9b765" stroke-width="2" opacity=".75"/>
+  <circle cx="150" cy="210" r="78" fill="none" stroke="#c4122f" stroke-width="1" opacity=".35"/>
+  <path d="M50 2 C59 20 72 37 90 50 C72 63 59 80 50 98 C41 80 28 63 10 50 C28 37 41 20 50 2 Z" fill="#c4122f"  transform="translate(150.00 210.00)  scale(1.2) translate(-50 -50)"/><g><path d="M28.35 70.00L15.57 70.00L15.57 64.87L18.25 64.43L30.18 27.34L37.89 27.34L49.75 64.43L52.43 64.87L52.43 70.00L39.65 70.00L39.65 64.87L42.25 64.35L40.60 58.49L27.40 58.49L25.75 64.35L28.35 64.87L28.35 70.00M33.54 37.66L29.18 52.19L38.82 52.19L34.44 37.57L34.08 36.28L33.92 36.28L33.54 37.66" fill="#c4122f"/><path d="M50 2 C59 20 72 37 90 50 C72 63 59 80 50 98 C41 80 28 63 10 50 C28 37 41 20 50 2 Z" fill="#c4122f"  transform="translate(34.00 98.00)  scale(0.28) translate(-50 -50)"/></g><g transform="rotate(180 150 210)"><path d="M28.35 70.00L15.57 70.00L15.57 64.87L18.25 64.43L30.18 27.34L37.89 27.34L49.75 64.43L52.43 64.87L52.43 70.00L39.65 70.00L39.65 64.87L42.25 64.35L40.60 58.49L27.40 58.49L25.75 64.35L28.35 64.87L28.35 70.00M33.54 37.66L29.18 52.19L38.82 52.19L34.44 37.57L34.08 36.28L33.92 36.28L33.54 37.66" fill="#c4122f"/><path d="M50 2 C59 20 72 37 90 50 C72 63 59 80 50 98 C41 80 28 63 10 50 C28 37 41 20 50 2 Z" fill="#c4122f"  transform="translate(34.00 98.00)  scale(0.28) translate(-50 -50)"/></g>
+<rect x="2" y="2" width="296" height="416" rx="20" fill="none" stroke="#c9b993" stroke-width="2.5"/>
+<rect x="9" y="9" width="282" height="402" rx="14" fill="none" stroke="#e6d6ad" stroke-width="1.2"/>
+</svg>

@@ -1,0 +1,172 @@
+<!doctype html><html><body style="margin:0;background:transparent">
+<canvas id="c" width="1920" height="1080"></canvas>
+<script>
+// Procedural casino lounge background for Ultra Hand Poker
+const MODE = location.hash.slice(1) || 'room';
+const cv = document.getElementById('c'); let x = cv.getContext('2d');
+let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647, (seed - 1) / 2147483646);
+const W = 1920, H = 1080;
+function layer(blur, fn) { const oc = document.createElement('canvas'); oc.width = W; oc.height = H; const prev = x; x = oc.getContext('2d'); fn(); x = prev; x.save(); x.filter = `blur(${blur}px)`; x.drawImage(oc, 0, 0); x.restore(); }
+function glow(cx, cy, r, col, a = 1) { const g = x.createRadialGradient(cx, cy, 0, cx, cy, r); g.addColorStop(0, col.replace('A', a)); g.addColorStop(1, col.replace('A', 0)); x.fillStyle = g; x.fillRect(cx - r, cy - r, r * 2, r * 2); }
+function room() {
+  // base
+  let g = x.createLinearGradient(0, 0, 0, H); g.addColorStop(0, '#1e0b07'); g.addColorStop(.55, '#140705'); g.addColorStop(1, '#070303'); x.fillStyle = g; x.fillRect(0, 0, W, H);
+  // back wall wood paneling
+  layer(2, () => {
+  for (let i = 0; i < 16; i++) {
+    const px = i * 128 - 20, py = 140, pw = 112, ph = 420;
+    const gg = x.createLinearGradient(px, 0, px + pw, 0); gg.addColorStop(0, '#3a190b'); gg.addColorStop(.5, '#5e2e13'); gg.addColorStop(1, '#2e140a');
+    x.fillStyle = gg; x.fillRect(px, py, pw, ph);
+    x.strokeStyle = 'rgba(232,184,90,.6)'; x.lineWidth = 2.5; x.strokeRect(px + 10, py + 14, pw - 20, ph - 28);
+    x.strokeStyle = 'rgba(0,0,0,.5)'; x.lineWidth = 6; x.strokeRect(px, py, pw, ph);
+  }
+  // gold cornice + dado rails
+  [[130, 10], [560, 8], [600, 4]].forEach(([y, h]) => { const gg = x.createLinearGradient(0, y, 0, y + h); gg.addColorStop(0, '#f7d27a'); gg.addColorStop(1, '#6b4310'); x.fillStyle = gg; x.globalAlpha = .55; x.fillRect(0, y, W, h); x.globalAlpha = 1; });
+  });
+  // stained glass windows (left) & bar shelves (right)
+  layer(5, () => {
+  [[150, 160], [1765, 150]].forEach(([wx, wy]) => {
+    x.fillStyle = '#0b0610'; x.beginPath(); x.moveTo(wx, wy + 200); x.lineTo(wx, wy + 40); x.arc(wx + 50, wy + 40, 50, Math.PI, 0); x.lineTo(wx + 100, wy + 200); x.fill();
+    const cols = ['#3a6cff', '#ff3a5a', '#b04bff', '#ffb43a', '#2ad1ff', '#ff4a2a'];
+    for (let i = 0; i < 26; i++) { x.fillStyle = cols[i % cols.length]; x.globalAlpha = .55 + rnd() * .35; x.fillRect(wx + 8 + (i % 4) * 22, wy + 20 + Math.floor(i / 4) * 28, 18, 24); }
+    x.globalAlpha = 1; x.strokeStyle = '#c9963a'; x.lineWidth = 4; x.stroke();
+  });
+  });
+  glow(200, 260, 180, 'rgba(120,80,255,A)', .18); glow(1815, 250, 170, 'rgba(255,90,120,A)', .14);
+  // bar shelves w/ bottles (right, behind)
+  layer(4, () => {
+  for (let row = 0; row < 3; row++) {
+    const y = 330 + row * 80; x.fillStyle = 'rgba(255,190,90,.18)'; x.fillRect(1560, y + 56, 360, 6);
+    for (let i = 0; i < 12; i++) { const bx = 1570 + i * 30 + rnd() * 6, bh = 40 + rnd() * 18; x.fillStyle = ['#5a2a10', '#2c4a20', '#6a1a1a', '#9a6a20', '#20304a'][Math.floor(rnd() * 5)]; x.globalAlpha = .9; x.fillRect(bx, y + 56 - bh, 16, bh); x.fillRect(bx + 5, y + 56 - bh - 14, 6, 14); x.fillStyle = 'rgba(255,220,150,.35)'; x.fillRect(bx + 3, y + 60 - bh, 3, bh - 10); }
+  }
+  x.globalAlpha = 1; });
+  for (let i = 0; i < 6; i++) glow(1600 + i * 60, 400 + (i % 3) * 70, 60, 'rgba(255,180,90,A)', .12);
+  // pillars
+  [[420, 60], [1462, 60]].forEach(([px, pw]) => {
+    const gg = x.createLinearGradient(px, 0, px + pw, 0); gg.addColorStop(0, '#2b1308'); gg.addColorStop(.35, '#6b4317'); gg.addColorStop(.5, '#d9a54a'); gg.addColorStop(.65, '#6b4317'); gg.addColorStop(1, '#1d0c05');
+    layer(3, () => { x.fillStyle = gg; x.globalAlpha = .9; x.fillRect(px, 0, pw, 700); });
+  });
+  // curtains (center, behind logo)
+  function curtain(x0, x1, y0, y1, phase, gather) {
+    for (let px = x0; px < x1; px++) {
+      const t = (px - x0) / (x1 - x0);
+      const f = .5 + .5 * Math.sin(px * 0.075 + phase + Math.sin(px * 0.013) * 2);
+      const f2 = .5 + .5 * Math.sin(px * 0.21 + phase * 1.7);
+      const v = .22 + .62 * Math.pow(f, 1.6) + .12 * f2;
+      const bottom = y1 - (gather ? Math.sin(t * Math.PI) * 30 : 0);
+      const gg = x.createLinearGradient(0, y0, 0, bottom);
+      const r = Math.round(150 * v), gc = Math.round(14 * v), b = Math.round(22 * v);
+      gg.addColorStop(0, `rgb(${r * .45 | 0},${gc * .4 | 0},${b * .4 | 0})`); gg.addColorStop(.25, `rgb(${r},${gc},${b})`); gg.addColorStop(.85, `rgb(${r * .85 | 0},${gc},${b})`); gg.addColorStop(1, `rgb(${r * .35 | 0},${gc * .3 | 0},${b * .3 | 0})`);
+      x.fillStyle = gg; x.fillRect(px, y0, 1.2, bottom - y0);
+    }
+  }
+  layer(1.2, () => {
+  curtain(470, 880, 0, 470, 0, true); curtain(1040, 1450, 0, 470, 2, true);
+  curtain(0, 135, 0, 760, 1, false); curtain(1785, 1920, 0, 760, 3, false);
+  // swag pelmet
+  for (let s = 0; s < 6; s++) { const sx = 450 + s * 172; x.beginPath(); x.moveTo(sx, 0); x.quadraticCurveTo(sx + 86, 120, sx + 172, 0); const gg = x.createLinearGradient(0, 0, 0, 90); gg.addColorStop(0, '#3a0408'); gg.addColorStop(.7, '#a3121f'); gg.addColorStop(1, '#5a0710'); x.fillStyle = gg; x.fill(); x.strokeStyle = 'rgba(232,180,80,.7)'; x.lineWidth = 3; x.stroke(); }
+  });
+  // warm light pooling on curtains
+  glow(675, 230, 260, 'rgba(255,120,80,A)', .18); glow(1245, 230, 260, 'rgba(255,120,80,A)', .18);
+  // chandeliers
+  function chandelier(cx, cy, s, blur) {
+    glow(cx, cy + 50 * s, 340 * s, 'rgba(255,196,110,A)', .7);
+    layer(blur, () => {
+    x.strokeStyle = '#d8a548'; x.lineWidth = 3 * s; x.beginPath(); x.moveTo(cx, cy - 300); x.lineTo(cx, cy + 120 * s); x.stroke();
+    // central body
+    let bg = x.createLinearGradient(cx - 14 * s, 0, cx + 14 * s, 0); bg.addColorStop(0, '#7a4f16'); bg.addColorStop(.5, '#ffe3a0'); bg.addColorStop(1, '#7a4f16');
+    x.fillStyle = bg; x.beginPath(); x.ellipse(cx, cy + 40 * s, 12 * s, 40 * s, 0, 0, 7); x.fill();
+    x.beginPath(); x.ellipse(cx, cy + 128 * s, 8 * s, 16 * s, 0, 0, 7); x.fill();
+    for (let t = 0; t < 3; t++) {
+      const ty = cy + t * 38 * s, rw = (60 + t * 48) * s, rh = rw * .26;
+      x.lineWidth = 2.4 * s; x.strokeStyle = 'rgba(216,165,72,.55)'; x.beginPath(); x.ellipse(cx, ty, rw, rh, 0, Math.PI, 2 * Math.PI); x.stroke();
+      x.strokeStyle = '#e6b456'; x.beginPath(); x.ellipse(cx, ty, rw, rh, 0, 0, Math.PI); x.stroke();
+      const n = 6 + t * 3;
+      for (let i = 0; i < n; i++) {
+        const a = 2 * Math.PI * i / n, px = cx + Math.cos(a) * rw, py = ty + Math.sin(a) * rh, front = Math.sin(a) > -0.2;
+        // crystal swag to next candle
+        const a2 = 2 * Math.PI * (i + 1) / n, qx = cx + Math.cos(a2) * rw, qy = ty + Math.sin(a2) * rh;
+        for (let k = 1; k < 6; k++) { const u = k / 6, sx = px + (qx - px) * u, sy = py + (qy - py) * u + Math.sin(u * Math.PI) * 16 * s; x.fillStyle = `rgba(255,248,230,${front ? .85 : .35})`; x.beginPath(); x.arc(sx, sy, 1.8 * s, 0, 7); x.fill(); }
+        for (let d = 0; d < 3; d++) { x.fillStyle = `rgba(255,250,235,${(front ? .9 : .4) - d * .2})`; x.beginPath(); x.arc(px, py + (8 + d * 9) * s, (2.6 - d * .5) * s, 0, 7); x.fill(); }
+        x.fillStyle = '#f6eedc'; x.fillRect(px - 2 * s, py - 16 * s, 4 * s, 14 * s);
+        x.fillStyle = '#fff6d8'; x.beginPath(); x.arc(px, py - 19 * s, 3.6 * s, 0, 7); x.fill();
+      }
+    }
+    });
+    x.save(); x.globalCompositeOperation = 'lighter';
+    for (let t = 0; t < 3; t++) { const ty = cy + t * 38 * s, rw = (60 + t * 48) * s, rh = rw * .26, n = 6 + t * 3; for (let i = 0; i < n; i++) { const a = 2 * Math.PI * i / n; glow(cx + Math.cos(a) * rw, ty + Math.sin(a) * rh - 19 * s, 26 * s, 'rgba(255,214,140,A)', .55); } }
+    x.restore();
+  }
+  chandelier(290, -10, 1.05, 1.2); chandelier(1650, 20, .95, 1.6); chandelier(660, 110, .5, 2.6); chandelier(1290, 110, .5, 2.6);
+  // red-shade table lamp (left)
+  layer(1.5, () => {
+  glow(150, 330, 260, 'rgba(255,90,60,A)', .5);
+  x.fillStyle = '#7a5418'; x.fillRect(140, 400, 18, 140); x.beginPath(); x.ellipse(149, 545, 60, 14, 0, 0, 7); x.fill();
+  let lg = x.createLinearGradient(40, 0, 260, 0); lg.addColorStop(0, '#6a0a10'); lg.addColorStop(.45, '#ff5a3a'); lg.addColorStop(.7, '#d3202a'); lg.addColorStop(1, '#5a0710');
+  x.fillStyle = lg; x.beginPath(); x.moveTo(90, 250); x.lineTo(210, 250); x.lineTo(262, 405); x.lineTo(36, 405); x.closePath(); x.fill();
+  x.strokeStyle = '#e8b04a'; x.lineWidth = 4; x.beginPath(); x.moveTo(36, 405); x.lineTo(262, 405); x.stroke(); x.beginPath(); x.moveTo(90, 250); x.lineTo(210, 250); x.stroke();
+  glow(150, 420, 120, 'rgba(255,200,120,A)', .55);
+  });
+  // velvet armchairs & lounge silhouettes
+  layer(6, () => {
+  [[30, 600, 220], [1700, 560, 240], [380, 610, 130], [1450, 600, 140]].forEach(([ax, ay, aw]) => {
+    const gg = x.createLinearGradient(0, ay, 0, ay + aw); gg.addColorStop(0, '#7a0e18'); gg.addColorStop(1, '#2a0408');
+    x.fillStyle = gg; x.beginPath(); x.roundRect(ax, ay, aw, aw * .8, aw * .18); x.fill();
+    x.fillStyle = 'rgba(255,140,120,.16)'; x.beginPath(); x.roundRect(ax + aw * .12, ay + 8, aw * .76, aw * .2, 20); x.fill();
+  });
+  });
+  // bokeh
+  x.save(); x.globalCompositeOperation = 'lighter';
+  for (let i = 0; i < 90; i++) {
+    const bx = rnd() * W, by = rnd() * 640, br = 4 + rnd() * 22, a = .05 + rnd() * .16;
+    x.filter = `blur(${2 + rnd() * 5}px)`; x.fillStyle = `rgba(255,${170 + rnd() * 60 | 0},${90 + rnd() * 60 | 0},${a})`; x.beginPath(); x.arc(bx, by, br, 0, 7); x.fill();
+  }
+  x.restore();
+  glow(960, 300, 1000, 'rgba(255,160,70,A)', .18); glow(300, 120, 500, 'rgba(255,200,120,A)', .25); glow(1650, 140, 500, 'rgba(255,200,120,A)', .25);
+  // wall sconces
+  [[450, 300], [1492, 300], [80, 520], [1840, 520]].forEach(([sx, sy]) => { glow(sx, sy, 120, 'rgba(255,200,120,A)', .45); });
+  // floor
+  g = x.createLinearGradient(0, 600, 0, H); g.addColorStop(0, 'rgba(10,4,3,0)'); g.addColorStop(.4, 'rgba(10,4,3,.85)'); g.addColorStop(1, '#050202'); x.fillStyle = g; x.fillRect(0, 600, W, H - 600);
+  // vignette
+  g = x.createRadialGradient(W / 2, H * .45, H * .35, W / 2, H * .5, H * 1.05); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,.55)'); x.fillStyle = g; x.fillRect(0, 0, W, H);
+}
+function table() {
+  const cx = 980, cy = 975, rx = 1030, ry = 572;
+  // drop shadow
+  layer(30, () => { x.fillStyle = 'rgba(0,0,0,.8)'; x.beginPath(); x.ellipse(cx, cy + 20, rx + 30, ry + 30, 0, 0, 7); x.fill(); });
+  // outer wood rim
+  let g = x.createLinearGradient(0, cy - ry, 0, cy + 100); g.addColorStop(0, '#5a2a12'); g.addColorStop(.3, '#2a1006'); g.addColorStop(1, '#120603');
+  x.fillStyle = g; x.beginPath(); x.ellipse(cx, cy, rx, ry, 0, 0, 7); x.fill();
+  // gold trims
+  const ring = (dr, w, col) => { x.strokeStyle = col; x.lineWidth = w; x.beginPath(); x.ellipse(cx, cy, rx - dr, ry - dr, 0, 0, 7); x.stroke(); };
+  const gold = x.createLinearGradient(cx - rx, 0, cx + rx, 0); gold.addColorStop(0, '#6d4511'); gold.addColorStop(.25, '#f2c76a'); gold.addColorStop(.5, '#b07a22'); gold.addColorStop(.75, '#ffe08a'); gold.addColorStop(1, '#6d4511');
+  ring(4, 5, gold);
+  // polished wood rail with gold inlays
+  const rail = (dr, w) => { x.lineWidth = w; x.beginPath(); x.ellipse(cx, cy, rx - dr, ry - dr, 0, 0, 7); x.stroke(); };
+  g = x.createLinearGradient(0, cy - ry, 0, cy + 200); g.addColorStop(0, '#7a3a14'); g.addColorStop(.25, '#4a1e0a'); g.addColorStop(.6, '#2a0f05'); g.addColorStop(1, '#5a2a10');
+  x.strokeStyle = g; rail(38, 62);
+  x.strokeStyle = 'rgba(255,214,150,.35)'; x.lineWidth = 3; x.beginPath(); x.ellipse(cx, cy, rx - 26, ry - 26, 0, Math.PI * 1.02, Math.PI * 1.98); x.stroke();
+  x.strokeStyle = 'rgba(255,190,120,.18)'; x.lineWidth = 10; x.beginPath(); x.ellipse(cx, cy, rx - 40, ry - 40, 0, Math.PI * .02, Math.PI * .4); x.stroke(); x.beginPath(); x.ellipse(cx, cy, rx - 40, ry - 40, 0, Math.PI * .6, Math.PI * .98); x.stroke();
+  ring(70, 5, gold); ring(76, 1.5, 'rgba(255,230,160,.6)');
+  // felt
+  const frx = rx - 78, fry = ry - 78;
+  g = x.createRadialGradient(cx, cy - fry * .62, 40, cx, cy - fry * .2, frx * .9);
+  g.addColorStop(0, '#2a7a43'); g.addColorStop(.35, '#185c30'); g.addColorStop(.7, '#0c3c1f'); g.addColorStop(1, '#051f10');
+  x.fillStyle = g; x.beginPath(); x.ellipse(cx, cy, frx, fry, 0, 0, 7); x.fill();
+  // felt noise
+  const id = x.getImageData(0, 0, W, H), d = id.data;
+  for (let i = 0; i < d.length; i += 4) { if (d[i + 1] > d[i] + 8 && d[i + 3] > 0) { const n = (rnd() - .5) * 14; d[i] += n * .4; d[i + 1] += n; d[i + 2] += n * .5; } }
+  x.putImageData(id, 0, 0);
+  // inner decorative line
+  x.setLineDash([]); x.strokeStyle = 'rgba(232,190,100,.28)'; x.lineWidth = 2; x.beginPath(); x.ellipse(cx, cy, frx - 46, fry - 46, 0, 0, 7); x.stroke();
+  x.strokeStyle = 'rgba(232,190,100,.14)'; x.lineWidth = 1; x.beginPath(); x.ellipse(cx, cy, frx - 54, fry - 54, 0, 0, 7); x.stroke();
+  // inner rim shadow on felt
+  x.save(); x.beginPath(); x.ellipse(cx, cy, frx, fry, 0, 0, 7); x.clip();
+  x.lineWidth = 60; x.strokeStyle = 'rgba(0,0,0,.35)'; x.filter = 'blur(18px)'; x.beginPath(); x.ellipse(cx, cy, frx + 10, fry + 10, 0, 0, 7); x.stroke(); x.restore();
+  // spotlight from above
+  x.save(); x.globalCompositeOperation = 'lighter'; x.beginPath(); x.ellipse(cx, cy, frx, fry, 0, 0, 7); x.clip();
+  glow(cx, 600, 520, 'rgba(255,230,160,A)', .10); x.restore();
+}
+if (MODE === 'room') room(); else table();
+document.title = 'done';
+</script></body></html>

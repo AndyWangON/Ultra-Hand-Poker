@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 140" width="120" height="140">
+<defs><linearGradient id="gl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".35"/><stop offset=".2" stop-color="#fff" stop-opacity=".05"/><stop offset=".8" stop-color="#fff" stop-opacity=".08"/><stop offset="1" stop-color="#fff" stop-opacity=".4"/></linearGradient>
+<linearGradient id="wh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3a43a" stop-opacity=".9"/><stop offset="1" stop-color="#7a3a08" stop-opacity=".95"/></linearGradient></defs>
+<path d="M14 62 L106 62 L100 128 Q100 134 92 134 L28 134 Q20 134 20 128Z" fill="url(#wh)"/>
+<ellipse cx="60" cy="62" rx="46" ry="8" fill="#ffc46a" opacity=".85"/>
+<rect x="38" y="44" width="30" height="26" rx="4" fill="#fff" opacity=".25" transform="rotate(-12 53 57)"/>
+<path d="M8 10 L112 10 L100 128 Q100 136 90 136 L30 136 Q20 136 20 128Z" fill="url(#gl)" stroke="#fff" stroke-opacity=".5" stroke-width="2"/>
+<ellipse cx="60" cy="10" rx="52" ry="7" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2"/>
+<path d="M22 20 L30 124" stroke="#fff" stroke-opacity=".55" stroke-width="4" stroke-linecap="round"/></svg>

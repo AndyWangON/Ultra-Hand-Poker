@@ -1,0 +1,60 @@
+/* ==========================================================
+   Ultra Hand Poker — stage & layout
+   Design canvas: 1920 x 1080 (16:9), scaled to fit by js/ui.js
+   ========================================================== */
+:root{
+  --gold:#e8b94f; --gold-l:#ffe7a3; --gold-d:#9a6a1c; --gold-line:rgba(214,170,82,.78);
+  --ink:#070908; --panel:rgba(5,10,10,.86); --panel-2:rgba(9,18,17,.92);
+  --cyan:#4cc9ff; --red:#ff4a4f; --green:#3fe07c;
+  --ease-back:cubic-bezier(.34,1.56,.64,1); --ease-out:cubic-bezier(.16,1,.3,1);
+  --label:"Barlow Condensed","Arial Narrow",sans-serif; --num:"Oswald","Arial Narrow",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:#090404;color:#fff;font-family:var(--label);-webkit-font-smoothing:antialiased;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+button{font-family:inherit;cursor:pointer;border:0;background:none;color:inherit;padding:0}
+button:disabled{cursor:default}
+#viewport{position:fixed;inset:0;overflow:hidden;
+  background:#0b0505 url(../assets/backgrounds/casino_lounge.jpg) center/cover no-repeat}
+#viewport::before{content:"";position:absolute;inset:0;backdrop-filter:blur(18px) brightness(.55);-webkit-backdrop-filter:blur(18px) brightness(.55)}
+.stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;
+  box-shadow:0 0 120px rgba(0,0,0,.9)}
+.room,.world{position:absolute;inset:0}
+.room-bg{position:absolute;inset:0;width:100%;height:100%;display:block}
+#ambient{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen}
+.flicker{position:absolute;border-radius:50%;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(circle,rgba(255,206,130,.42),rgba(255,170,80,0) 65%);animation:flicker 3.2s infinite ease-in-out}
+.flicker.f1{left:90px;top:-150px;width:420px;height:420px}
+.flicker.f2{left:1450px;top:-110px;width:400px;height:400px;animation-delay:-1.3s}
+.flicker.f3{left:-40px;top:200px;width:380px;height:360px;background:radial-gradient(circle,rgba(255,90,60,.35),rgba(255,60,40,0) 65%);animation-delay:-.6s}
+.flicker.f4{left:540px;top:30px;width:240px;height:240px;animation-delay:-2s}
+@keyframes flicker{0%,100%{opacity:.75}20%{opacity:1}45%{opacity:.82}60%{opacity:.95}80%{opacity:.7}}
+
+.world{will-change:transform}
+.table{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.fx{position:absolute;inset:0;pointer-events:none;z-index:60}
+
+/* ---------- block placement (desktop 16:9) ---------- */
+.logo-wrap{position:absolute;left:645px;top:-2px;width:630px;height:238px;z-index:5;pointer-events:none}
+.top-controls{position:absolute;right:52px;top:44px;display:flex;gap:16px;z-index:20}
+.ladder-panel{position:absolute;left:458px;top:222px;width:1004px;height:124px;z-index:6}
+.hud{position:absolute;left:428px;top:354px;width:1064px;height:96px;z-index:6}
+.bet-panel{position:absolute;left:176px;top:470px;width:262px;height:270px;z-index:8}
+.hand{position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;z-index:10}
+.sort-bar{position:absolute;left:688px;top:706px;width:584px;height:48px;z-index:9}
+.actions{position:absolute;left:500px;top:770px;width:980px;height:84px;z-index:12}
+.guide{position:absolute;left:270px;top:876px;width:1380px;height:166px;z-index:7}
+.emblem{position:absolute;left:118px;top:930px;width:124px;opacity:.92;z-index:6}
+.motto{position:absolute;left:268px;top:70px;z-index:4}
+.wall-sign{position:absolute;left:1585px;top:118px;z-index:3}
+.deck-prop{position:absolute;left:1580px;top:640px;width:150px;height:214px;z-index:7}
+.props .prop{position:absolute;pointer-events:none;filter:drop-shadow(0 18px 18px rgba(0,0,0,.65)) brightness(.82) saturate(.9)}
+.props .stack.s1{left:22px;top:520px;width:132px}
+.props .stack.s2{left:78px;top:640px;width:120px}
+.props .stack.s3{left:8px;top:722px;width:118px}
+.props .stack.s4{left:1768px;top:820px;width:110px}
+.props .chip.c1{left:1700px;top:930px;width:96px;transform:rotateX(62deg) rotateZ(20deg)}
+.props .chip.c2{left:150px;top:820px;width:86px;transform:rotateX(62deg) rotateZ(-30deg)}
+.props .glass{left:1796px;top:500px;width:104px;opacity:.95}
+.score-panel{position:absolute;left:660px;top:704px;width:640px;z-index:30}
+.floaters{position:absolute;inset:0;pointer-events:none;z-index:40}
+.final-banner{position:absolute;left:810px;top:458px;z-index:11}

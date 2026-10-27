@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0b0605">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Ultra Hand Poker — Mobile</title>
+<link rel="preload" href="assets/backgrounds/mobile_lounge.jpg" as="image">
+<link rel="preload" href="assets/backgrounds/mobile_table.png" as="image">
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/mobile.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/cards.css">
+<link rel="stylesheet" href="css/effects.css">
+<link rel="stylesheet" href="css/mobile-overrides.css">
+</head>
+<body>
+<div id="viewport">
+  <div id="stage" class="stage">
+    <!-- ================= ROOM (static backdrop) ================= -->
+    <div class="room" aria-hidden="true">
+      <img class="room-bg" src="assets/backgrounds/mobile_lounge.jpg" alt="">
+      <div class="flicker f1"></div><div class="flicker f2"></div><div class="flicker f4"></div>
+      <canvas id="ambient" width="1080" height="2340"></canvas>
+    </div>
+
+    <!-- ================= WORLD (shakes as one) ================= -->
+    <div id="world" class="world">
+      <img class="table" src="assets/backgrounds/mobile_table.png" alt="" aria-hidden="true">
+      <div id="deck" class="deck-prop" aria-hidden="true"></div>
+
+      <div class="motto" aria-hidden="true">Play Higher · Think Deeper · Go Ultra</div>
+      <nav class="top-controls">
+        <button id="howToBtn" class="btn-ghost square" aria-label="How to play"><img src="assets/ui/icons/help.svg" alt=""></button>
+        <button id="soundBtn" class="btn-ghost square" aria-label="Toggle sound"><img id="soundIcon" src="assets/ui/icons/sound_on.svg" alt=""></button>
+        <button id="settingsBtn" class="btn-ghost square" aria-label="Settings"><img src="assets/ui/icons/settings.svg" alt=""></button>
+      </nav>
+
+      <header id="logoWrap" class="logo-wrap"><img class="logo" src="assets/ui/logo.png" alt="Ultra Hand Poker"><div class="logo-shine"><i></i><i></i><i></i><i></i></div></header>
+
+      <section class="panel ladder-panel">
+        <div class="panel-label">RUN SCORE <i class="arrow"></i> PAYOUT MULTIPLIER</div>
+        <div id="ladder" class="ladder"></div>
+        <div class="tier-progress"><i id="tierFill"></i></div>
+      </section>
+
+      <section class="panel hud">
+        <div class="hud-cell score"><span class="lbl">RUN SCORE</span><div class="val"><img src="assets/ui/icons/trophy.svg" alt=""><b id="runScore">0</b></div></div>
+        <div class="hud-cell plays"><span class="lbl">PLAYS LEFT</span><div class="val"><b id="playsLeft">3</b></div></div>
+        <div class="hud-cell discards"><span class="lbl">DISCARDS</span><div class="val"><b id="discardsLeft">2</b></div></div>
+        <div class="hud-cell deckc"><span class="lbl">DECK</span><div class="val"><img src="assets/ui/icons/deck.svg" alt=""><b id="deckLeft">52</b></div></div>
+      </section>
+
+      <aside class="panel bet-panel">
+        <div class="bet-col">
+          <div class="bet-title">BET</div>
+          <div class="bet-control">
+            <button id="betMinus" class="bet-btn" aria-label="Decrease bet">−</button>
+            <input id="betInput" type="number" min="1" max="10000" step="1" value="10" inputmode="numeric" aria-label="Bet amount">
+            <button id="betPlus" class="bet-btn" aria-label="Increase bet">+</button>
+          </div>
+        </div>
+        <div class="bet-col win"><div class="bet-label">CURRENT WINNING</div><div id="livePayout" class="live-win">$0.00</div></div>
+        <div class="bet-col mult"><div class="bet-label">MULTIPLIER</div><b id="currentMult" class="mult-val">0x</b></div>
+      </aside>
+
+      <div class="play-zone" aria-hidden="true"><span>PLAY ZONE</span></div>
+      <div id="hand" class="hand"></div>
+
+      <div class="sort-bar">
+        <span class="sort-lbl">SORT</span>
+        <button id="sortRankBtn" class="seg">RANK</button>
+        <button id="sortSuitBtn" class="seg">SUIT</button>
+        <div id="suitPick" class="suit-pick"></div>
+      </div>
+
+      <div id="actions" class="actions">
+        <button id="discardBtn" class="big-btn discard"><img class="ico" src="assets/ui/icons/discard.svg" alt=""><span class="lbl">DISCARD</span><em id="discardBadge" class="badge">2</em></button>
+        <button id="playBtn" class="big-btn play"><img class="ico" src="assets/ui/icons/spade.svg" alt=""><span class="lbl">PLAY HAND<small id="playHint">SELECT 1–5 CARDS</small></span></button>
+        <button id="newRoundBtn" class="big-btn round"><img class="ico" src="assets/ui/icons/refresh.svg" alt=""><span class="lbl">NEW<br>ROUND</span></button>
+      </div>
+
+      <section id="guide" class="panel guide"></section>
+
+      <div id="scorePanel" class="score-panel" aria-live="polite">
+        <div id="spName" class="sp-name">PAIR</div>
+        <div class="sp-row">
+          <div class="sp-box hand-val"><small>HAND</small><b id="spBase">0</b></div>
+          <i class="sp-op">+</i>
+          <div class="sp-box card-val"><small>CARDS</small><b id="spCards">0</b></div>
+          <i class="sp-op">=</i>
+          <div class="sp-box total"><small>SCORE</small><b id="spTotal">0</b></div>
+        </div>
+      </div>
+      <div id="floaters" class="floaters"></div>
+      <div id="finalBanner" class="final-banner">FINAL HAND</div>
+    </div>
+
+    <!-- ================= FX + OVERLAYS ================= -->
+    <canvas id="fx" class="fx" width="1080" height="2340"></canvas>
+    <div id="flash" class="flash"></div>
+    <div id="tierBurst" class="tier-burst">
+      <img class="rays" src="assets/ui/fx_rays.png" alt="">
+      <div class="tb-inner"><small>PAYOUT TIER UNLOCKED</small><strong id="tierValue">2.5x</strong><span id="tierRange">400 – 499</span></div>
+    </div>
+    <div id="shuffleOverlay" class="shuffle-overlay"><strong>SHUFFLING &amp; DEALING</strong></div>
+
+    <div id="howModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="howTitle">
+      <div class="modal-card">
+        <button class="modal-close" data-close="howModal" aria-label="Close">×</button>
+        <div class="kicker">ULTRA HAND POKER</div>
+        <h2 id="howTitle">HOW TO PLAY</h2>
+        <div class="how-grid">
+          <div class="how-step"><b>1</b><div><strong>BUILD A HAND</strong>You hold 7 cards from a single finite 52-card deck. Select 1–5 of them.</div></div>
+          <div class="how-step"><b>2</b><div><strong>PLAY OR DISCARD</strong>You get <em>3 Plays</em> and <em>2 Discards</em>. Used cards are replaced from the same deck.</div></div>
+          <div class="how-step"><b>3</b><div><strong>SCORE</strong>Score = Poker Hand Value + values of the cards that form the hand. 2–10 = face value, J/Q/K = 10, A = 11.</div></div>
+          <div class="how-step"><b>4</b><div><strong>CHASE THE PAYOUT</strong>Your Run Score climbs the ladder. The final tier multiplies your wager.</div></div>
+        </div>
+        <div id="howTable" class="how-table"></div>
+        <div class="rule-note">Only cards that form the detected hand add card value — kickers score nothing.</div>
+        <button class="big-btn play modal-cta" data-close="howModal"><span class="lbl">LET'S PLAY</span></button>
+      </div>
+    </div>
+
+    <div id="settingsModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="setTitle">
+      <div class="modal-card small">
+        <button class="modal-close" data-close="settingsModal" aria-label="Close">×</button>
+        <div class="kicker">PREFERENCES</div>
+        <h2 id="setTitle">SETTINGS</h2>
+        <label class="setting-row">Sound volume <input id="volume" type="range" min="0" max="100" value="80"></label>
+        <label class="setting-row">Screen shake <input id="shakeToggle" type="checkbox" checked></label>
+        <label class="setting-row">Fast animations <input id="fastToggle" type="checkbox"></label>
+        <label class="setting-row">Reduced motion <input id="motionToggle" type="checkbox"></label>
+        <label class="setting-row">Show scoring detail <input id="detailToggle" type="checkbox" checked></label>
+      </div>
+    </div>
+
+    <div id="resultModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="resTitle">
+      <div class="modal-card result">
+        <div class="kicker">ROUND COMPLETE</div>
+        <h2 id="resTitle">ULTRA PAYOUT</h2>
+        <div class="res-label">WINNING PAYOUT</div>
+        <div id="finalPayout" class="final-payout">$0.00</div>
+        <div id="finalSub" class="final-sub"></div>
+        <div id="finalHands" class="final-hands"></div>
+        <button id="playAgainBtn" class="big-btn play modal-cta"><span class="lbl">PLAY AGAIN</span></button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="rotateHint" class="rotate-hint"></div>
+
+<script src="js/config.js"></script>
+<script src="js/rules.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/fx.js"></script>
+<script src="js/cards.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
