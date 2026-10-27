@@ -1,7 +1,7 @@
 /* ==========================================================
    Mobile sizing overrides for shared components
    ========================================================== */
-.final-banner{top:1078px}
+.final-banner{top:988px}
 
 /* top bar */
 .btn-ghost.square{width:92px;height:84px;border-radius:14px}
@@ -91,7 +91,7 @@ body.scoring .play-zone{opacity:0}
 .tier-burst small{font-size:30px}
 .tier-burst strong{font-size:200px}
 .tier-burst span{font-size:30px}
-.shuffle-overlay{top:1080px}
+.shuffle-overlay{top:990px}
 .shuffle-overlay strong{font-size:36px}
 .modal-card{width:980px;padding:48px 40px}
 .modal h2{font-size:72px}
@@ -127,7 +127,7 @@ body.scoring .play-zone{opacity:0}
 .big-btn.play{width:588px}
 
 /* ===== bet stake phase ===== */
-.stake-panel{position:absolute;left:70px;top:968px;width:940px;height:672px;z-index:25;border-radius:28px;text-align:center;padding:30px 40px 34px;
+.stake-panel{position:absolute;left:70px;top:878px;width:940px;height:672px;z-index:25;border-radius:28px;text-align:center;padding:30px 40px 34px;
   background:radial-gradient(ellipse at 50% 0%,rgba(60,42,12,.96),rgba(8,10,9,.97) 60%);border:2px solid var(--gold-line);
   box-shadow:0 30px 70px rgba(0,0,0,.75),0 0 40px rgba(232,185,79,.22),inset 0 1px 0 rgba(255,230,170,.25);
   opacity:0;pointer-events:none;transform:translateY(60px) scale(.9);transition:opacity .35s,transform .5s var(--ease-back)}
@@ -184,3 +184,24 @@ body.betting .bet-panel{box-shadow:0 0 0 2px rgba(255,214,110,.55),0 0 30px rgba
 .mult-val{font-size:58px;font-weight:700;text-shadow:0 2px 2px rgba(0,0,0,.8)}
 /* motto: thin script turns to mush at phone size — use crisp spaced small caps instead */
 .motto{font:700 24px/1 "Cinzel",serif;letter-spacing:.14em;color:#f2cf7c;top:52px;left:34px;text-shadow:0 2px 2px rgba(0,0,0,.95)}
+
+/* ===== bet info as a compact top-left card ===== */
+.motto{left:190px;font-size:22px;letter-spacing:.08em}
+.bet-panel{display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding:18px 20px 20px}
+.bet-col,.bet-col+.bet-col{height:auto;padding:0;gap:2px}
+.bet-col+.bet-col::before{display:none}
+.bet-col.mult{align-items:flex-start}
+.bet-title,.bet-label{font-size:22px;letter-spacing:.06em}
+.bet-control{margin:0}
+/* stake panel owns bet editing; the -/+ stay in the DOM for game.js bindings */
+.bet-panel .bet-btn{display:none}
+#betInput{width:120px;text-align:left;font-size:42px;line-height:1.05}
+.live-win,.mult-val{font-size:42px;line-height:1.05}
+
+/* ===== sort bar at full panel width ===== */
+.sort-bar{padding:0 12px 0 30px}
+.sort-lbl{font-size:30px;margin-right:22px}
+.seg{height:64px;width:170px;font-size:32px}
+.suit-pick{height:64px;gap:12px;padding:0 12px 0 20px}
+.suit-pick button{width:86px;height:62px}
+.suit-pick svg{width:40px;height:40px}

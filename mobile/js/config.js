@@ -54,8 +54,8 @@ window.UHP = window.UHP || {};
   // Stage layouts (design pixels). Portrait is used on tall/mobile screens.
   // Mobile portrait stage (design pixels, ~9:19.5 phone)
   U.LAYOUT = {
-    mobile: { w: 1080, h: 2340, cw: 188, ch: 274, handCx: 540, handY: 1300, spacing: 133, fan: 2.8, arc: 5.5, selLift: 46,
-      playY: 992, playSpacing: 160, playScale: .8, restDrop: 120,
-      deck: { x: 30, y: 1000, r: -12 }, discardTo: { x: 1260, y: 1150 } },
+    mobile: { w: 1080, h: 2340, cw: 188, ch: 274, handCx: 540, handY: 1215, spacing: 133, fan: 2.8, arc: 5.5, selLift: 46,
+      playY: 902, playSpacing: 160, playScale: .8, restDrop: 120,
+      deck: { x: 30, y: 906, r: -12 }, discardTo: { x: 1260, y: 1150 } },
   };
 })(window.UHP);
