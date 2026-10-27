@@ -80,9 +80,24 @@
       <div id="actions" class="actions">
         <button id="discardBtn" class="big-btn discard"><img class="ico" src="assets/ui/icons/discard.svg" alt=""><span class="lbl">DISCARD</span><em id="discardBadge" class="badge">2</em></button>
         <button id="playBtn" class="big-btn play"><img class="ico" src="assets/ui/icons/spade.svg" alt=""><span class="lbl">PLAY HAND<small id="playHint">SELECT 1–5 CARDS</small></span></button>
-        <button id="newRoundBtn" class="big-btn round"><img class="ico" src="assets/ui/icons/refresh.svg" alt=""><span class="lbl">NEW<br>ROUND</span></button>
       </div>
 
+      <!-- bet stake phase: choose the wager, then deal -->
+      <section id="stakePanel" class="stake-panel" aria-labelledby="stakeTitle">
+        <div class="stake-kicker">ROUND <span id="stakeRound">1</span></div>
+        <h2 id="stakeTitle">PLACE YOUR BET</h2>
+        <div class="stake-amount"><span class="cur">$</span><b id="stakeValue">10</b></div>
+        <div class="stake-max">MAX PAYOUT <b>15x</b> = <b id="stakeMax">$150.00</b></div>
+        <div id="stakeChips" class="stake-chips"></div>
+        <div class="stake-tools">
+          <button id="stakeClear" class="stake-tool">CLEAR</button>
+          <button id="stakeMinus" class="stake-tool" aria-label="Decrease bet by 1">−1</button>
+          <button id="stakePlus" class="stake-tool" aria-label="Increase bet by 1">+1</button>
+          <button id="stakeHalf" class="stake-tool">½</button>
+          <button id="stakeDouble" class="stake-tool">×2</button>
+        </div>
+        <button id="confirmBet" class="big-btn play stake-confirm"><img class="ico" src="assets/ui/icons/spade.svg" alt=""><span class="lbl">CONFIRM &amp; DEAL<small id="confirmHint">BET $10.00</small></span></button>
+      </section>
       <section id="guide" class="panel guide"></section>
 
       <div id="scorePanel" class="score-panel" aria-live="polite">
@@ -114,7 +129,7 @@
         <div class="kicker">ULTRA HAND POKER</div>
         <h2 id="howTitle">HOW TO PLAY</h2>
         <div class="how-grid">
-          <div class="how-step"><b>1</b><div><strong>BUILD A HAND</strong>You hold 7 cards from a single finite 52-card deck. Select 1–5 of them.</div></div>
+          <div class="how-step"><b>1</b><div><strong>BET, THEN DEAL</strong>Pick your stake with the chips and tap <em>Confirm &amp; Deal</em>. You get 7 cards from one finite 52-card deck — select 1–5.</div></div>
           <div class="how-step"><b>2</b><div><strong>PLAY OR DISCARD</strong>You get <em>3 Plays</em> and <em>2 Discards</em>. Used cards are replaced from the same deck.</div></div>
           <div class="how-step"><b>3</b><div><strong>SCORE</strong>Score = Poker Hand Value + values of the cards that form the hand. 2–10 = face value, J/Q/K = 10, A = 11.</div></div>
           <div class="how-step"><b>4</b><div><strong>CHASE THE PAYOUT</strong>Your Run Score climbs the ladder. The final tier multiplies your wager.</div></div>
@@ -146,7 +161,7 @@
         <div id="finalPayout" class="final-payout">$0.00</div>
         <div id="finalSub" class="final-sub"></div>
         <div id="finalHands" class="final-hands"></div>
-        <button id="playAgainBtn" class="big-btn play modal-cta"><span class="lbl">PLAY AGAIN</span></button>
+        <button id="playAgainBtn" class="big-btn play modal-cta"><span class="lbl">NEXT ROUND</span></button>
       </div>
     </div>
   </div>

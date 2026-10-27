@@ -17,3 +17,8 @@ Fixes: fx/cards loops reschedule first and catch errors; sprites are drawn only 
 animations have timer fallbacks; every action runs under one lock released in `finally` (plus table re-sync);
 20 s watchdog; result screen no longer races with New Round / Play Again (taps during an action are queued).
 Verified: blocked-sprite fault test (old build freezes, new build continues), full rounds, randomized tap fuzzing.
+
+## Sync with desktop V11 (bet-first flow) — 2026-10-27
+Mobile restored to the bet-first flow: stake panel (chips 1/5/10/25/100, −1/+1/½/×2/Clear) → Confirm & Deal →
+3 plays / 2 discards → result → Next Round back to the stake panel. New Round button removed.
+Game logic (js/game.js) is now identical to the desktop V11 build, including the stuck-play fix above.

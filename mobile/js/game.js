@@ -29,7 +29,7 @@
     document.body.classList.remove('scoring'); $('scorePanel').classList.remove('show'); $('shuffleOverlay').classList.remove('show');
     render.countingScore = false; render.countingMoney = false; render.ladderScore = null;
     syncViews(); layout(); render();
-    if (pendingNext) { pendingNext = false; setTimeout(startRound, 0); }
+    if (pendingNext) { pendingNext = false; setTimeout(openBetting, 0); }
   }
   setInterval(() => {
     if (state.busy && busySince && !document.hidden && performance.now() - busySince > 20000) {
@@ -39,7 +39,7 @@
   document.addEventListener('visibilitychange', () => { if (!document.hidden && state.busy) busySince = performance.now(); });
   const state = {
     deck: [], hand: [], selected: new Set(), plays: R.plays, discards: R.discards, score: 0, history: [],
-    bet: R.betDefault, busy: false, sort: 'rank', suitFirst: null, dealSeq: 0, firstRound: true, detail: true, round: 0,
+    bet: R.betDefault, busy: false, sort: 'rank', suitFirst: null, dealSeq: 0, firstRound: true, detail: true, round: 0, phase: 'bet',
   };
 
   // ---------- helpers ----------
@@ -60,7 +60,7 @@
   function render() {
     const mult = rules.payoutMult(state.score);
     $('playsLeft').textContent = state.plays; $('discardsLeft').textContent = state.discards; $('discardBadge').textContent = state.discards;
-    $('deckLeft').textContent = state.deck.length; ui.renderDeck(state.deck.length);
+    const deckN = (state.phase === 'bet' || (!state.deck.length && !state.hand.length)) ? 52 : state.deck.length; $('deckLeft').textContent = deckN; ui.renderDeck(deckN);
     if (!render.countingScore) $('runScore').textContent = state.score.toLocaleString('en-US');
     if (!render.countingMoney) { $('currentMult').textContent = ui.fmtMult(mult); $('livePayout').textContent = ui.money(state.bet * mult); }
     $('livePayout').classList.toggle('zero', mult === 0);
@@ -69,9 +69,10 @@
     $('playBtn').disabled = !valid || state.plays <= 0;
     $('discardBtn').disabled = !valid || state.discards <= 0;
     $('playBtn').classList.toggle('ready', valid && state.plays > 0);
-    $('playHint').textContent = ev ? (state.detail ? `${ev.name.toUpperCase()} · ${ev.base} + ${ev.cardValue} = ${ev.total}` : `${ev.name.toUpperCase()} · +${ev.total}`) : (state.plays > 0 ? 'SELECT 1–5 CARDS' : 'ROUND OVER');
+    $('playHint').textContent = state.phase === 'bet' ? 'PLACE YOUR BET' : ev ? (state.detail ? `${ev.name.toUpperCase()} · ${ev.base} + ${ev.cardValue} = ${ev.total}` : `${ev.name.toUpperCase()} · +${ev.total}`) : (state.plays > 0 ? 'SELECT 1–5 CARDS' : 'ROUND OVER');
     ui.highlightGuide(ev ? ev.name : null);
-    const betLocked = state.history.length > 0 || state.busy;
+    const betLocked = state.phase !== 'bet' || state.busy;
+    renderStake();
     $('betInput').disabled = betLocked; $('betMinus').disabled = betLocked; $('betPlus').disabled = betLocked;
     $('sortRankBtn').classList.toggle('active', state.sort === 'rank'); $('sortSuitBtn').classList.toggle('active', state.sort === 'suit');
     ui.renderSuitPick(state.sort === 'suit' ? state.suitFirst : null);
@@ -121,7 +122,7 @@
 
   // ---------- play ----------
   async function playHand() {
-    if (state.busy) return;
+    if (state.busy || state.phase !== 'play') return;
     const cards = selectedCards();
     if (!cards.length || cards.length > R.maxSelect || state.plays <= 0) { sfx.error(); $('playBtn').classList.add('shake-x'); setTimeout(() => $('playBtn').classList.remove('shake-x'), 400); return; }
     return locked(() => playSequence(cards));
@@ -222,7 +223,7 @@
 
   // ---------- discard ----------
   async function discard() {
-    if (state.busy) return;
+    if (state.busy || state.phase !== 'play') return;
     const cards = selectedCards();
     if (!cards.length || cards.length > R.maxSelect || state.discards <= 0) { sfx.error(); return; }
     return locked(() => discardSequence(cards));
@@ -253,11 +254,43 @@
     await sleep(520);
     vs.forEach(v => C.destroy(v));
   }
+  // ---------- bet stake phase ----------
+  const CHIPS = [[1, 'green'], [5, 'red'], [10, 'blue'], [25, 'black'], [100, 'gold']];
+  const clampBet = v => Math.max(R.betMin, Math.min(R.betMax, Math.round(v) || R.betMin));
+  function renderStake() {
+    $('stakeValue').textContent = state.bet.toLocaleString('en-US');
+    $('stakeMax').textContent = ui.money(state.bet * 15);
+    $('confirmHint').textContent = `BET ${ui.money(state.bet)}`;
+    $('stakeRound').textContent = state.round + 1;
+    if (document.activeElement !== $('betInput')) $('betInput').value = state.bet;
+    document.body.classList.toggle('betting', state.phase === 'bet');
+  }
+  function setBet(v, from) {
+    if (state.phase !== 'bet' || state.busy) return;
+    const nv = clampBet(v); if (nv === state.bet) { sfx.error(); return; }
+    state.bet = nv; sfx.chip(); ui.bump($('stakeValue')); ui.bump($('betInput'));
+    if (from) { const a = ui.stagePoint(from), b = ui.stagePoint($('stakeValue')); fx.orb(a.x, a.y, b.x, b.y, 300, () => fx.burst(b.x, b.y, { count: 12, speed: 300, gravity: 120, size: 24 })); }
+    render();
+  }
+  function openBetting() { if (state.busy) { pendingNext = true; return; } return locked(bettingSequence); }
+  async function bettingSequence() {
+    ui.close('resultModal');
+    await collectCards();
+    state.deck = []; state.hand = []; state.selected.clear(); state.plays = R.plays; state.discards = R.discards;
+    state.score = 0; state.history = []; state.phase = 'bet';
+    render();
+    U.audio.play('swoosh', { vol: .5 });
+  }
+  async function confirmBet() {
+    if (state.phase !== 'bet' || state.busy) return;
+    state.bet = clampBet(state.bet); sfx.button(); sfx.chip(); sfx.chip();
+    const p = ui.stagePoint($('stakeValue')), q = ui.stagePoint($('livePayout'));
+    fx.orb(p.x, p.y, q.x, q.y, 420); fx.burst(p.x, p.y, { count: 20, speed: 500, gravity: 200 });
+    state.phase = 'play'; render();
+    await locked(async () => { await sleep(320); await startSequence(); });
+  }
   function startRound() { return locked(startSequence); }
   async function startSequence() {
-    ui.close('resultModal');
-    state.bet = Math.max(R.betMin, Math.min(R.betMax, Math.round(Number($('betInput').value)) || R.betDefault)); $('betInput').value = state.bet;
-    await collectCards();
     state.deck = rules.makeDeck(); state.hand = []; state.selected.clear(); state.plays = R.plays; state.discards = R.discards;
     state.score = 0; state.history = []; state.dealSeq = 0; state.sort = 'rank'; state.suitFirst = null; state.round++;
     render();
@@ -288,24 +321,25 @@
       sfx.payout(mult >= 4); fx.coinRain(30 + Math.min(90, mult * 8)); if (mult >= 2.5) fx.confetti(C.layout.w / 2, C.layout.h * .55, 90);
       sleep(250).then(() => ui.countUp(fp, 0, payout, 1200 / SPEED, ui.money, t => sfx.tick(t))).then(() => fx.shake(.3));
     } else { sfx.noPayout(); fp.textContent = ui.money(0); }
+    state.phase = 'over';
   }
 
   // ---------- wager ----------
-  function changeBet(d) {
-    if ($('betInput').disabled) return;
-    state.bet = Math.max(R.betMin, Math.min(R.betMax, (Number($('betInput').value) || R.betDefault) + d));
-    $('betInput').value = state.bet; sfx.chip(); ui.bump($('betInput')); render();
-  }
+  function changeBet(d) { if ($('betInput').disabled) return; setBet(state.bet + d); }
 
   // ---------- wiring ----------
   function wire() {
     $('playBtn').onclick = playHand; $('discardBtn').onclick = discard;
-    $('newRoundBtn').onclick = () => { sfx.button(); startRound(); };
-    $('playAgainBtn').onclick = () => { sfx.button(); if (state.busy) { pendingNext = true; return; } startRound(); };
+    $('playAgainBtn').onclick = () => { sfx.button(); openBetting(); };
+    $('confirmBet').onclick = confirmBet;
+    $('stakeChips').innerHTML = CHIPS.map(([v, c]) => `<button class="stake-chip" data-v="${v}" aria-label="Add ${v}"><img src="assets/ui/chip_${c}_blank.svg" alt=""><b>${v}</b></button>`).join('');
+    $('stakeChips').addEventListener('click', e => { const b = e.target.closest('.stake-chip'); if (!b) return; b.classList.remove('hit'); void b.offsetWidth; b.classList.add('hit'); setBet(state.bet + +b.dataset.v, b); });
+    $('stakeClear').onclick = () => setBet(R.betMin); $('stakeMinus').onclick = () => setBet(state.bet - 1); $('stakePlus').onclick = () => setBet(state.bet + 1);
+    $('stakeHalf').onclick = () => setBet(Math.floor(state.bet / 2)); $('stakeDouble').onclick = () => setBet(state.bet * 2);
     $('sortRankBtn').onclick = () => setSort('rank'); $('sortSuitBtn').onclick = () => setSort('suit');
     $('suitPick').addEventListener('click', e => { const b = e.target.closest('button'); if (b) setSort('suit', b.dataset.suit); });
     $('betMinus').onclick = e => changeBet(e.shiftKey ? -10 : -1); $('betPlus').onclick = e => changeBet(e.shiftKey ? 10 : 1);
-    $('betInput').onchange = () => { state.bet = Math.max(R.betMin, Math.min(R.betMax, Math.round(Number($('betInput').value)) || R.betDefault)); $('betInput').value = state.bet; render(); };
+    $('betInput').onchange = () => { if (state.phase === 'bet') { state.bet = clampBet(Number($('betInput').value)); render(); } };
     $('howToBtn').onclick = () => { sfx.button(); ui.open('howModal'); };
     $('settingsBtn').onclick = () => { sfx.button(); ui.open('settingsModal'); };
     document.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => { sfx.button(); ui.close(b.dataset.close); }));
@@ -323,18 +357,18 @@
     window.addEventListener('keydown', e => {
       if (e.target.tagName === 'INPUT') return;
       if (document.querySelector('.modal.show')) { if (e.key === 'Escape') document.querySelectorAll('.modal.show').forEach(m => m.id !== 'resultModal' && ui.close(m.id)); return; }
+      if (state.phase === 'bet') { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); confirmBet(); } return; }
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); playHand(); }
       else if (e.key.toLowerCase() === 'd') discard();
-      else if (e.key.toLowerCase() === 'n') startRound();
       else if (/^[1-7]$/.test(e.key)) { const c = sortedHand()[+e.key - 1]; if (c) toggle(C.views.get(c.id)); }
     });
     window.addEventListener('resize', ui.fit);
   }
 
-  U.game = { state, relayout() { if (C.views.size) layout(); }, startRound, playHand, discard, evaluate: rules.evaluate };
+  U.game = { state, relayout() { if (C.views.size) layout(); }, openBetting, confirmBet, setBet, playHand, discard, evaluate: rules.evaluate };
 
   // ---------- boot ----------
   U.audio.init(); fx.init(); C.start(); ui.renderGuide(); ui.renderLadder(0); wire(); ui.fit(); render();
-  const boot = () => startRound();
+  const boot = () => openBetting();
   (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(() => setTimeout(boot, 250));
 })(window.UHP);
