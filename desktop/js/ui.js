@@ -18,7 +18,9 @@
       U.game && U.game.relayout();
     }
     const L = U.cards.layout; const s = Math.min(w / L.w, h / L.h);
-    $('stage').style.transform = `scale(${s}) translate(-50%,-50%)`;
+    const stage = $('stage');
+    stage.style.transform = `scale(${s}) translate(-50%,-50%)`;
+    stage.classList.add('fitted');
     U.ui.scale = s;
   }
 

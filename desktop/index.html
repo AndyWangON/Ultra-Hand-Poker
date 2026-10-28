@@ -181,6 +181,19 @@
 </div>
 <div id="rotateHint" class="rotate-hint"></div>
 
+<script>
+/* Fit the stage before the external scripts download. Same math as ui.fit(). */
+(function () {
+  var st = document.getElementById('stage');
+  var w = innerWidth, h = innerHeight, portrait = h > w * 1.12;
+  var W = portrait ? 1080 : 1920, H = portrait ? 1920 : 1080;
+  var s = Math.min(w / W, h / H);
+  document.body.classList.toggle('portrait', portrait);
+  st.style.width = W + 'px'; st.style.height = H + 'px';
+  st.style.transform = 'scale(' + s + ') translate(-50%,-50%)';
+  st.classList.add('fitted');
+})();
+</script>
 <script src="js/config.js"></script>
 <script src="js/rules.js"></script>
 <script src="js/audio.js"></script>

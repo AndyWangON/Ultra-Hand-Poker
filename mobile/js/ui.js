@@ -18,7 +18,9 @@
     // Snap the stage origin to whole device pixels: a fractional offset makes all text soft.
     const dpr = window.devicePixelRatio || 1;
     const x = Math.round((w - L.w * s) / 2 * dpr) / dpr, y = Math.round((h - L.h * s) / 2 * dpr) / dpr;
-    $('stage').style.transform = `translate(${x}px,${y}px) scale(${s})`;
+    const stage = $('stage');
+    stage.style.transform = `translate(${x}px,${y}px) scale(${s})`;
+    stage.classList.add('fitted');
     U.ui.scale = s;
   }
 
